@@ -1,0 +1,44 @@
+.container-geral-menu {
+    width: 100vw;
+    max-width: 144rem;
+    height: 12rem;
+    background-color: aliceblue;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container-logomarca {
+    width: 15rem;
+    display: flex;
+}
+
+.menu-logomarca {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.container-menu-nav {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.container-menu-nav button {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border: solid 0.1rem transparent;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.container-menu-nav button:hover {
+    border: solid 0.1rem #B7005C;
+}
+
+.container-menu-nav div:last-child button {
+    background-color: #B7005C;
+    color: white;
+}
