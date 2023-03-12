@@ -1,0 +1,21 @@
+.container-carrinho-vazio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.container-carrinho-vazio img {
+    width: 4rem;
+}
+
+.btn-continuar-comprando {
+    background-color: #B7005C;
+    width: 20rem;
+    height: 3rem;
+    border-radius: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

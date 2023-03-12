@@ -1,11 +1,35 @@
 import './styles.css';
+
+//functions
+import { useContext } from 'react';
+import { SuperModalContext } from '../../utils/modalContext';
+import { useAuth } from '../../auth';
+
+//assets
 import Logomarca from '../../assets/logomarca.svg';
 import Carrinho from '../../assets/carrinho.svg';
 import User from '../../assets/user.svg';
 import Vender from '../../assets/vender.svg';
 import Mercado from '../../assets/mercado.svg';
 
+//components
+import SuperModal from '../SuperModal';
+import ShowCart from '../ShowCart';
+import LoginForm from '../Login';
+
+
 function Menu () {
+
+    const { isAuthenticated}  = useAuth();
+    const {setCurrentModal} = useContext(SuperModalContext);
+
+    const handleCartModal = () => {
+        setCurrentModal(<ShowCart/>);
+    };
+
+    const handleUserModal = () => {
+        !isAuthenticated? setCurrentModal(<LoginForm/>):setCurrentModal(<LoginForm/>);
+    };
 
     return (
 
@@ -15,7 +39,7 @@ function Menu () {
             </div>
             <nav className='container-menu-nav'>
                 <div>
-                    <button>
+                    <button onClick={handleCartModal}>
                         <img src={Carrinho} alt='carrinho'/>
                         <span>Meu Carrinho</span>
                     </button>
@@ -27,7 +51,7 @@ function Menu () {
                     </button>
                 </div>
                 <div>
-                    <button>
+                    <button onClick={handleUserModal}>
                         <img src={User} alt='usuário'/>
                         <span>Usuário</span>
                     </button>
@@ -39,6 +63,7 @@ function Menu () {
                     </button>
                 </div>
             </nav>
+            <SuperModal/>
         </header>
     );
 };

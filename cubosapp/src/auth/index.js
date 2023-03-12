@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
 
 export function useAuth() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
 
     console.log("entrou no useAuth");
 
@@ -28,7 +27,7 @@ export function useAuth() {
         } else {
             setIsAuthenticated(true);
         };
-    }, [navigate, location]);
+    }, [navigate]);
 
     return isAuthenticated;
 

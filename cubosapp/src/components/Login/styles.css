@@ -1,0 +1,53 @@
+.container-login-cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.container-login-cadastro img {
+    width: 4rem;
+}
+
+.container-login-cadastro button {
+    color: #B7005C;
+}
+
+.container-form {
+    /* background-color: greenyellow; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.container-form img {
+    width: 4rem;
+}
+
+.container-form input {
+    width: 33rem;
+    height: 3rem;
+    border-radius: 2rem;
+    border: solid 0.1rem rgba(0,0,0,0.1);
+    padding: 0 2rem;
+}
+
+.container-form label {
+    font-size: medium;
+    font-weight: 400;
+    font-size: small;
+}
+
+.container-form button {
+    width: 18rem;
+    height: 4rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #B7005C;
+    color: white;
+    margin: 2rem 0rem;
+}
