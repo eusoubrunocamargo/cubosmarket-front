@@ -6,6 +6,20 @@
     margin-bottom: 4rem;
 }
 
+.btn-fechar-modal {
+    border: solid 0.1rem #B7005C;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 3rem;
+}
+
 .container-login-cadastro img {
     width: 4rem;
 }

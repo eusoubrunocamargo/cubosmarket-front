@@ -1,11 +1,11 @@
 import './styles.css';
 import api from '../../services/api';
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Card from '../../components/Card';
 
 function StoreFront () {
 
-    const [produtos, setProdutos] = useState([]);
+    const[produtos,setProdutos] = useState([])
 
     useEffect(() => {
         async function loadProdutos() {
@@ -19,12 +19,10 @@ function StoreFront () {
         loadProdutos();
     },[]);
 
-    console.log(produtos);
-
     return (
         <>
         <div className='container-geral-storefront'>
-            {produtos.map((produto) => (
+            {produtos && produtos.map((produto) => (
                 <Card key={produto.id} produto={produto}/>
             ))}
         </div>
@@ -33,3 +31,16 @@ function StoreFront () {
 };
 
 export default StoreFront;
+
+
+  // useEffect(() => {
+    //     async function loadProdutos() {
+    //         try {
+    //             const response = await api.get('/');
+    //             setProdutos(response.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         };
+    //     };
+    //     loadProdutos();
+    // },[]);

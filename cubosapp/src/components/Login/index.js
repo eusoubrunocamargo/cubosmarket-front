@@ -2,6 +2,7 @@ import { useState , useContext} from "react";
 import './styles.css';
 import { SuperModalContext } from "../../utils/modalContext";
 import User from '../../assets/user.svg'
+import api from "../../services/api";
 
 const LoginForm = () => {
 
@@ -12,8 +13,8 @@ const LoginForm = () => {
     const [formValues, setFormValues] = useState({
         nome: '',
         email: '',
-        password: '',
-        checkpassword: ''
+        senha: '',
+        checksenha: ''
     });
 
     const handleInputChange = (e) => {
@@ -25,13 +26,31 @@ const LoginForm = () => {
         setCurrentModal(null);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
-        const route = isLoginForm?'/login':'/cadastro';
+        const url = isLoginForm?'/login':'/cadastro';
         const payload = isLoginForm
-        ? { email: formValues.email, password: formValues.password}
-        : { nome: formValues.nome, email: formValues.email, password: formValues.password, checkpassword: formValues.checkpassword}; 
-        console.log(`Enviando ${JSON.stringify(payload)} na rota ${route}`);
+        ? { email: formValues.email, senha: formValues.senha}
+        : { nome: formValues.nome, email: formValues.email, senha: formValues.senha}; 
+        console.log(`Enviando ${JSON.stringify(payload)} na rota ${url}`);
+        
+        api.post(url, JSON.stringify(payload))
+        .then((response) => {
+            if(url === '/login'){
+            localStorage.setItem('nome', response.data.nome);
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('loja_cadastrada', response.data.loja_cadastrada);
+            if(response.data.marketname){localStorage.setItem("nome_loja",response.data.marketname)};
+            };
+            alert(response.data.mensagem);
+        })
+        .catch((error) => {
+            console.log(error);
+            alert(error.response.data.mensagem);
+        });
+        
         handleCloseButtonClick();
     };
 
@@ -47,6 +66,7 @@ const LoginForm = () => {
         return (
         <>
         <div className="container-login-cadastro">
+            <button className="btn-fechar-modal" onClick={handleCloseButtonClick}>X</button>
             <img src={User} alt='usuário'/>
             <span>Já é usuário? </span>
             <span>Faça{' '}
@@ -59,6 +79,7 @@ const LoginForm = () => {
     return (
         <>
         <div className="container-login-cadastro">
+            <button className="btn-fechar-modal" onClick={handleCloseButtonClick}>X</button>
             <img src={User} alt='usuário'/>
             <span>Já é usuário? </span>
             <span>Faça{' '}
@@ -85,20 +106,20 @@ const LoginForm = () => {
                 value={formValues.email}
                 onChange={handleInputChange}
             />
-            <label htmlFor="password">Senha</label>
+            <label htmlFor="senha">Senha</label>
             <input
                 type="password"
-                id="password"
-                value={formValues.password}
+                id="senha"
+                value={formValues.senha}
                 onChange={handleInputChange}
             />
             {!isLoginForm && (
             <>
-                <label htmlFor="checkpassword">Senha</label>
+                <label htmlFor="checksenha">Confirme a senha</label>
                  <input
                 type="password"
-                id="checkpassword"
-                value={formValues.checkpassword}
+                id="checksenha"
+                value={formValues.checksenha}
                 onChange={handleInputChange}
                 />
             </>

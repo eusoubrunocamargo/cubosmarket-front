@@ -1,6 +1,7 @@
 .container-geral-storefront {
     width: 100vw;
     max-width: 144rem;
+    min-width: 100rem;
     min-height: calc(100vh - 12rem);
     background-color: lightgrey;
     padding: 2rem 4rem;
