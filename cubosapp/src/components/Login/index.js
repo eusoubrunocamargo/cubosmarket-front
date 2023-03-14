@@ -2,9 +2,14 @@ import { useState , useContext} from "react";
 import './styles.css';
 import { SuperModalContext } from "../../utils/modalContext";
 import User from '../../assets/user.svg'
-import api from "../../services/api";
+// import api from "../../services/api";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../utils/authContext";
 
 const LoginForm = () => {
+
+    const navigate = useNavigate();
+    const { login} = useAuth();
 
     const { setCurrentModal } = useContext(SuperModalContext);
     
@@ -35,21 +40,26 @@ const LoginForm = () => {
         : { nome: formValues.nome, email: formValues.email, senha: formValues.senha}; 
         console.log(`Enviando ${JSON.stringify(payload)} na rota ${url}`);
         
-        api.post(url, JSON.stringify(payload))
-        .then((response) => {
-            if(url === '/login'){
-            localStorage.setItem('nome', response.data.nome);
-            localStorage.setItem('id', response.data.id);
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('loja_cadastrada', response.data.loja_cadastrada);
-            if(response.data.marketname){localStorage.setItem("nome_loja",response.data.marketname)};
-            };
-            alert(response.data.mensagem);
-        })
-        .catch((error) => {
-            console.log(error);
-            alert(error.response.data.mensagem);
-        });
+        if(isLoginForm){
+            login(payload);
+        };
+        // api.post(url, JSON.stringify(payload))
+        // .then((response) => {
+        //     if(url === '/login'){
+        //     localStorage.setItem('nome', response.data.nome);
+        //     localStorage.setItem('id', response.data.id);
+        //     localStorage.setItem('token', response.data.token);
+        //     localStorage.setItem('loja_cadastrada', response.data.loja_cadastrada);
+        //     if(response.data.marketname){localStorage.setItem("nome_loja",response.data.marketname)};
+        //     };
+        //     alert(response.data.mensagem);
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        //     alert(error.response.data.mensagem);
+        // });
+        
+        navigate("/");
         
         handleCloseButtonClick();
     };

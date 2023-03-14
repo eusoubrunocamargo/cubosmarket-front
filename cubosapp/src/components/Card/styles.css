@@ -1,9 +1,17 @@
 .container-geral-card {
-    width: 28rem;
-    height: 38rem;
+    /* width: 28rem;
+    height: 38rem; */
+    display: flex;
+    flex-direction: column;
+    min-height: 38rem;
+    max-width: 48rem;
+    min-width: 28rem;
     background-color: #FCFCFC;
     border-radius: 0.8rem;
     padding: 2rem;
+    flex-shrink: 1;
+    flex-grow: 1;
+    justify-content: space-between;
 }
 
 .container-foto-produto {
@@ -32,4 +40,11 @@
     color: #D10070;
     display: flex;
     align-items: center;
+}
+
+.container-nome-preco {
+    display: flex;
+    flex-direction: column;
+    min-height: 9rem;
+    justify-content: flex-end;
 }

@@ -7,7 +7,7 @@ function SellerShop () {
     return (
         <>
         <div className='container-geral-sellershop'>
-            Página do vendedor
+            Página pública do vendedor
         </div>
         </>
     );

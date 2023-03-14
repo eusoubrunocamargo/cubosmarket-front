@@ -2,8 +2,9 @@ import './styles.css';
 
 //functions
 import { useContext } from 'react';
+import { useNavigate  } from 'react-router-dom';
 import { SuperModalContext } from '../../utils/modalContext';
-import { useAuth } from '../../auth';
+import { useAuth } from '../../utils/authContext';
 
 //assets
 import Logomarca from '../../assets/logomarca.svg';
@@ -16,25 +17,43 @@ import Mercado from '../../assets/mercado.svg';
 import SuperModal from '../SuperModal';
 import ShowCart from '../ShowCart';
 import LoginForm from '../Login';
-
+import CreateStore from '../CreateStore';
+import SetUser from '../User';
 
 function Menu () {
 
-    const { isAuthenticated}  = useAuth();
+    
+
+    const { isAuthenticated } = useAuth();
+    console.log(`passou pelo menu e isauth? ${isAuthenticated}`);
     const {setCurrentModal} = useContext(SuperModalContext);
+
+    const navigate = useNavigate();
 
     const handleCartModal = () => {
         setCurrentModal(<ShowCart/>);
     };
 
     const handleUserModal = () => {
-        !isAuthenticated? setCurrentModal(<LoginForm/>):setCurrentModal(<LoginForm/>);
+        isAuthenticated? setCurrentModal(<SetUser/>):setCurrentModal(<LoginForm/>);
+    };
+    
+    const handleMarketModal = () => {
+        
+        if(isAuthenticated){
+            const hasStore = localStorage.getItem('loja_cadastrada');
+            hasStore === 'true' ? navigate("/mystore") : setCurrentModal(<CreateStore/>)
+            return;
+        };
+        
+        setCurrentModal(<LoginForm/>);
+        
     };
 
     return (
 
         <header className='container-geral-menu'>
-            <div className='container-logomarca'>
+            <div onClick={() => navigate('/')} className='container-logomarca'>
                 <img src={Logomarca} alt='logomarca' className='menu-logomarca'/>
             </div>
             <nav className='container-menu-nav'>
@@ -45,7 +64,7 @@ function Menu () {
                     </button>
                 </div>
                 <div>
-                    <button>
+                    <button onClick={handleMarketModal}>
                         <img src={Mercado} alt='mercado'/>
                         <span>Meu Mercado</span>
                     </button>

@@ -4,7 +4,7 @@
     min-width: 100rem;
     min-height: calc(100vh - 12rem);
     background-color: lightgrey;
-    padding: 2rem 4rem;
+    padding: 2rem;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

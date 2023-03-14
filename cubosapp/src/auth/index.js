@@ -1,34 +1,43 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import jwtDecode from 'jwt-decode';
+// import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import jwtDecode from 'jwt-decode';
 
-export function useAuth() {
+// export function useAuth() {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
+//     const [isAuthenticated, setIsAuthenticated] = useState(null);
+//     const navigate = useNavigate();
 
-    console.log("entrou no useAuth");
+//     console.log("entrou no useAuth");
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
+//     useEffect(() => {
 
-        if(!token){
-            setIsAuthenticated(false);
-            navigate('/');
-            return;
-        };
+//         console.log("entrou no effect to auth");
 
-        const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
+//         const token = localStorage.getItem('token');
 
-        if(decodedToken.exp < currentTime){
-            setIsAuthenticated(false);
-            navigate('/');
-        } else {
-            setIsAuthenticated(true);
-        };
-    }, [navigate]);
+//         if(!token){
+//             setIsAuthenticated(false);
+//             navigate('/');
+//             return;
+//         };
 
-    return isAuthenticated;
+//         const decodedToken = jwtDecode(token);
+//         const currentTime = Date.now() / 1000;
 
-};
+//         console.log(decodedToken);
+//         console.log(currentTime);
+
+//         if(decodedToken.exp < currentTime){
+//             console.log("token vencido, vai p /");
+//             setIsAuthenticated(false);
+//             navigate('/');
+//         } else {
+//             setIsAuthenticated(true);
+//         };
+//     }, []);
+
+//     console.log(`Usuário autenticado: ${isAuthenticated}`);
+
+//     return isAuthenticated;
+
+// };
