@@ -11,15 +11,15 @@ const MyRoutes = () => {
     return (
         <>
         <AuthProvider>
-        <SuperModalProvider>
-        <Menu/>
-        </SuperModalProvider>
-        <Routes>
-            <Route path="/" element={<StoreFront/>}/>
-            <Route path="/mystore" element={<PrivateRoute><MyStore/></PrivateRoute>}/>
-            <Route path="/:sellername" element={<SellerShop/>}/>
-            <Route path="*" element={<Navigate to='/'/>}/>
-        </Routes>
+            <SuperModalProvider>
+                <Menu/>
+                <Routes>
+                    <Route path="/" element={<StoreFront/>}/>
+                    <Route path="/mystore" element={<PrivateRoute><MyStore/></PrivateRoute>}/>
+                    <Route path="/:sellername" element={<SellerShop/>}/>
+                    <Route path="*" element={<Navigate to='/'/>}/>
+                </Routes>
+            </SuperModalProvider>
         </AuthProvider>
         </>
     );

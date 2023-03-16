@@ -1,13 +1,10 @@
 .container-geral-storefront {
-    width: 100vw;
-    max-width: 144rem;
     min-width: 100rem;
-    min-height: calc(100vh - 12rem);
+    max-width: 144rem;
     background-color: lightgrey;
-    padding: 2rem;
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
+    padding: 2rem;
+    gap: 2rem;
     justify-content: center;
-    gap: 1rem;
 }

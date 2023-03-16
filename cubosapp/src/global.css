@@ -18,7 +18,7 @@ body {
   justify-content: center;
 }
 
-button, input {
+button, input, form {
   all: unset;
   cursor: pointer;
   box-sizing: border-box;

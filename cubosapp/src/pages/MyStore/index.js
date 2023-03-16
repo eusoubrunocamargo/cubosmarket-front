@@ -1,14 +1,23 @@
 import './styles.css';
+
+//functions
+import { SuperModalContext } from '../../utils/modalContext';
+import { useContext, useEffect , useState } from 'react';
+import api from '../../services/api';
+
+//assets
 import MercadoWhite from '../../assets/mercado_white.svg';
 import Edit from '../../assets/btn_edit_product.svg';
 import Del from '../../assets/btn_del_product.svg';
 import EmptyMarket from '../../assets/empty_market.svg';
-import { useEffect , useState } from 'react';
-import api from '../../services/api';
+
+//components
+import CreateProduct from '../../components/CreateProduct';
 
 function MyStore () {
 
     const marketName = localStorage.getItem("nome_loja");
+    const { setCurrentModal } = useContext(SuperModalContext);
 
     const [hasProduct, setHasProduct] = useState(true);
     const [meusProdutos, setMeusProdutos] = useState([]);
@@ -41,7 +50,7 @@ function MyStore () {
             }
 
             alert('produto deletado!');
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -59,7 +68,7 @@ function MyStore () {
                     <h3>{marketName? marketName:"Minha Loja"}</h3>
                 </div>
                 <div className="container-btn-create-ad">
-                <button className="btn-create-ad">+ Criar Anúncio</button>
+                <button onClick={()=>setCurrentModal(<CreateProduct setMeusProdutos={setMeusProdutos} carregarMeusProdutos={carregarMeusProdutos}/>)} className="btn-create-ad">+ Criar Anúncio</button>
                 </div>
             </div>
 

@@ -19,6 +19,19 @@ export function AuthProvider({children}) {
         };
     }, []);
 
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+          if (e.key === "token" && !e.newValue) {
+            setIsAuthenticated(false);
+          }
+        };
+    
+        window.addEventListener("storage", handleStorageChange);
+        return () => {
+          window.removeEventListener("storage", handleStorageChange);
+        };
+      }, []);
+
     function login(payload){
     api.post('/login', payload)
         .then(response => {
