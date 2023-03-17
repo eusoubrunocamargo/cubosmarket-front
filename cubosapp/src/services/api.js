@@ -2,6 +2,8 @@ import axios from "axios";
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
+let counter = 0;
+
 
 const api = axios.create({
     //baseURL: 'http://localhost:8080',
@@ -23,7 +25,10 @@ api.interceptors.request.use(
                         config.headers.Authorization = `Bearer ${token}`;
                     } else {
                     localStorage.clear();
-                    alert('Você não está logado, faça login!');
+                    if(counter){
+                        alert('Você não está logado, faça login!');
+                    }
+                    counter++;
                     window.location.reload();
                     const navigate = useNavigate();
                     navigate('/');

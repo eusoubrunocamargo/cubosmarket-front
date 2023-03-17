@@ -1,8 +1,14 @@
 import "../Card/styles.css";
+import { SuperModalContext } from "../../utils/modalContext";
+import { useContext } from "react";
+import ProductDetail from '../ProductDetail';
 
 function Card({produto}) {
+
+    const { setCurrentModal } = useContext(SuperModalContext);
+
     return (
-        <div className="container-geral-card">
+        <div onClick={() => setCurrentModal(<ProductDetail produto={produto}/>)} className="container-geral-card">
             <div className="container-foto-produto">
                 <img className="image-sizing" src={produto.imagem_url} alt="produto" />
             </div>

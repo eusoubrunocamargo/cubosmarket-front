@@ -4,13 +4,17 @@ import './styles.css'
 
 const SuperModal = () => {
 
-    const {currentModal } = useContext(SuperModalContext);
+    const {currentModal , setCurrentModal } = useContext(SuperModalContext);
+
+    const handleClick = (e) => {
+        e.stopPropagation();
+    };
 
     return (    
         <>
         {currentModal &&
-        <div className='container-background-transition'>
-            <div className='container-super-modal'>
+        <div onClick={() => {setCurrentModal(null)}} className='container-background-transition'>
+            <div onClick={handleClick} className='container-super-modal'>
                 {currentModal}
             </div>
         </div>}

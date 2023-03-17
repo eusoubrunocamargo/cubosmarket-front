@@ -2,7 +2,7 @@ import { useState , useContext} from "react";
 import './styles.css';
 import { SuperModalContext } from "../../utils/modalContext";
 import User from '../../assets/user.svg'
-// import api from "../../services/api";
+import api from "../../services/api";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../utils/authContext";
 
@@ -42,26 +42,20 @@ const LoginForm = () => {
         
         if(isLoginForm){
             login(payload);
+        } else {
+            api.post('/cadastro', JSON.stringify(payload))
+            .then((response) => {
+                alert(response.data.mensagem);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert(error.response.data.mensagem);
+            });
         };
-        // api.post(url, JSON.stringify(payload))
-        // .then((response) => {
-        //     if(url === '/login'){
-        //     localStorage.setItem('nome', response.data.nome);
-        //     localStorage.setItem('id', response.data.id);
-        //     localStorage.setItem('token', response.data.token);
-        //     localStorage.setItem('loja_cadastrada', response.data.loja_cadastrada);
-        //     if(response.data.marketname){localStorage.setItem("nome_loja",response.data.marketname)};
-        //     };
-        //     alert(response.data.mensagem);
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        //     alert(error.response.data.mensagem);
-        // });
         
         navigate("/");
-        
         handleCloseButtonClick();
+
     };
 
     const handleLoginClick = () => {

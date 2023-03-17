@@ -50,6 +50,15 @@ function Menu () {
         
     };
 
+    const handleSellModal = () => {
+        if(isAuthenticated){
+            const hasStore = localStorage.getItem('loja_cadastrada');
+            hasStore === 'true' ? navigate("/mystore") : setCurrentModal(<CreateStore/>)
+            return;
+        };
+        setCurrentModal(<LoginForm/>);
+    };
+
     return (
 
         <header className='container-geral-menu'>
@@ -76,7 +85,7 @@ function Menu () {
                     </button>
                 </div>
                 <div>
-                    <button>
+                    <button onClick={handleSellModal}>
                         <img src={Vender} alt='vender'/>
                         <span>Vender</span>
                     </button>
