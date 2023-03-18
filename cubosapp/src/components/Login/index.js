@@ -5,6 +5,7 @@ import User from '../../assets/user.svg'
 import api from "../../services/api";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../utils/authContext";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
 
@@ -34,22 +35,22 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        const url = isLoginForm?'/login':'/cadastro';
+        //const url = isLoginForm?'/login':'/cadastro';
         const payload = isLoginForm
         ? { email: formValues.email, senha: formValues.senha}
         : { nome: formValues.nome, email: formValues.email, senha: formValues.senha}; 
-        console.log(`Enviando ${JSON.stringify(payload)} na rota ${url}`);
+        //console.log(`Enviando ${JSON.stringify(payload)} na rota ${url}`);
         
         if(isLoginForm){
             login(payload);
         } else {
             api.post('/cadastro', JSON.stringify(payload))
             .then((response) => {
-                alert(response.data.mensagem);
+                toast.success(response.data.mensagem);
             })
             .catch((error) => {
-                console.log(error);
-                alert(error.response.data.mensagem);
+                //console.log(error);
+                toast.error(error.response.data.mensagem);
             });
         };
         

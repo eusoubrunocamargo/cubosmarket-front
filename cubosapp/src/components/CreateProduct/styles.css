@@ -6,6 +6,7 @@
     grid-template-rows: repeat(6,auto);
     padding: 1.5rem;
     grid-gap: 1.5rem;
+    height: 80%;
 }
 
 .container-form-cadastro-produto label {
@@ -73,14 +74,40 @@ grid-gap: 1rem;
 .container-upload-imagem {
     grid-column: 1/span5;
     grid-row: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 input {
     box-sizing: border-box;
 }
 
+.btn-choose-file {
+    display: none;
+}
+
+.container-upload-imagem label {
+    background-color: #105136;
+    display: flex;
+    width: 17.5rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+
 label {
     padding-left: 1rem;
+}
+
+.preview {
+    width: 5rem;
+    height: 5rem;
+    background-color: yellowgreen;
+    border-radius: 0.5rem;
 }
 
 .container-form-preco-produto {
@@ -165,4 +192,6 @@ label {
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem;
+    font-weight: 400;
+    font-size: small;
 }

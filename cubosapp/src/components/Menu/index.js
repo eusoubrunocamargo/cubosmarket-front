@@ -4,6 +4,7 @@ import './styles.css';
 import { useContext } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import { SuperModalContext } from '../../utils/modalContext';
+import { MyCartContext } from '../../utils/cartContext';
 import { useAuth } from '../../utils/authContext';
 
 //assets
@@ -22,11 +23,10 @@ import SetUser from '../User';
 
 function Menu () {
 
-    
-
     const { isAuthenticated } = useAuth();
     console.log(`passou pelo menu e isauth? ${isAuthenticated}`);
     const {setCurrentModal} = useContext(SuperModalContext);
+    const {currentCart} = useContext(MyCartContext);
 
     const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ function Menu () {
                 <div>
                     <button onClick={handleCartModal}>
                         <img src={Carrinho} alt='carrinho'/>
-                        <span>Meu Carrinho</span>
+                        <span>{currentCart.length === 0? "Meu Carrinho" : currentCart.length}</span>
                     </button>
                 </div>
                 <div>
@@ -81,7 +81,7 @@ function Menu () {
                 <div>
                     <button onClick={handleUserModal}>
                         <img src={User} alt='usuário'/>
-                        <span>Usuário</span>
+                        <span>{isAuthenticated? localStorage.getItem("nome") : "Usuário"}</span>
                     </button>
                 </div>
                 <div>

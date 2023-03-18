@@ -4,6 +4,7 @@ import { SuperModalContext } from "../../utils/modalContext";
 import "./styles.css";
 import { useState } from "react";
 import api from "../../services/api";
+import { toast } from "react-toastify";
 
 function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
@@ -40,8 +41,8 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
     const[selectedFile, setSelectedFile] = useState(null);
 
     const selectFile = (e) => {
-        console.log(e.target.files.length);
-        console.log(e.target.files);
+        //console.log(e.target.files.length);
+        // console.log(e.target.files);
         if(e.target.files.length > 0){
             setSelectedFile(e.target.files[0]);
         }
@@ -54,8 +55,8 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
             console.log(response.data);
             return response.data.url;
         } catch (error) {
-            console.log("entrou no erro");
-            console.log(error);
+            //console.log("entrou no erro");
+            toast.error(error);
             return "";
         }
     };
@@ -64,17 +65,15 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
         e.preventDefault();
     
         if (!produto.nome || !produto.descricao || !produto.preco || !produto.estoque || !produto.categoria_id) {
-            return alert("Campos obrigatórios");
+            return toast.warning("Preencha os campos obrigatórios");
         }
     
         const imageUrl = await uploadingImage();
 
-        console.log(imageUrl);
+        //console.log(imageUrl);
 
-
-    
         if (imageUrl === "") {
-            alert("Erro ao carregar imagem!");
+            toast.error("Erro ao carregar imagem!");
             return;
         }
     
@@ -99,9 +98,10 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
             setMeusProdutos(prevState => [...prevState, response.data.produto[0]]);
             carregarMeusProdutos();
             handleCloseButtonClick();
+            toast.success("Produto cadastrado com sucesso!");
     
         } catch (error) {
-            console.log(error);
+            toast.error(error);
         }
     };
 
@@ -109,7 +109,6 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
     return (
         <>
-            {/* <div className="container-carrinho-vazio"> */}
                 <form className="container-form-cadastro-produto" onSubmit={handleCreateAnuncio} encType="multipart/form-data">
                     <h1 className="titulo-form">Cadastrar novo produto</h1>
 
@@ -147,8 +146,13 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
                     <div className="container-upload-imagem">
                         <label className="btn btn-default">
+                            Escolha até 4 imagens
                             <input className="btn-choose-file" type="file" onChange={selectFile} required />
                         </label>
+                        <div className="preview"></div>
+                        <div className="preview"></div>
+                        <div className="preview"></div>
+                        <div className="preview"></div>
                     </div>
 
                     <div className="container-btn-publicar-cancelar">
@@ -160,7 +164,6 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                         </div>
                     </div>
                 </form>
-            {/* </div> */}
         </>
     )
 

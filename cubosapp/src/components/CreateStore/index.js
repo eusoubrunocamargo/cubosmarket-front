@@ -4,6 +4,7 @@ import { SuperModalContext } from '../../utils/modalContext';
 import Mercado from '../../assets/mercado.svg'
 import { useContext , useState } from 'react';
 import api from '../../services/api';
+import { toast } from 'react-toastify';
 
 
 const CreateStore = () => {
@@ -20,7 +21,7 @@ const CreateStore = () => {
         event.preventDefault();
 
         if (!nomeLoja) {
-            return alert("Todos os campos são obrigatórios!");
+            return toast.warn("O nome da loja é obrigatório!");
         };
 
         const userID = localStorage.getItem("id");
@@ -32,19 +33,20 @@ const CreateStore = () => {
                 usuario_id: userID,
             });
 
-            console.log(response.data);
+            //console.log(response.data);
 
             const { marketname } = response.data;
             localStorage.setItem("loja_cadastrada", true);
             localStorage.setItem("marketname", marketname);
 
-            alert("Loja criada!");
+            toast.success("Loja criada!");
+
             navigate("/mystore");
 
             handleCloseButtonClick();
 
         } catch (error) {
-            console.error(error);
+            toast.error(error);
         };
     };
 

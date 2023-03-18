@@ -1,4 +1,5 @@
 import { createContext, useContext, useState , useEffect } from "react";
+import { toast } from 'react-toastify';
 import api from "../services/api";
 
 const AuthContext = createContext();
@@ -43,7 +44,8 @@ export function AuthProvider({children}) {
                 localStorage.setItem("nome_loja",response.data.marketname);
                 };
             setIsAuthenticated(true);
-            alert(response.data.mensagem);
+            //alert(response.data.mensagem);
+            toast.success("Você está logado!");
         })
         .catch(error => {
             console.log(error);

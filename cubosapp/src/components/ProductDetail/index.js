@@ -3,6 +3,7 @@ import { MyCartContext } from "../../utils/cartContext";
 import { SuperModalContext } from "../../utils/modalContext";
 import FastCart from '../../assets/fast_cart.png';
 import "./styles.css";
+import { toast } from 'react-toastify';
 
 function ProductDetail({produto}) {
 
@@ -14,7 +15,8 @@ function ProductDetail({produto}) {
 
     const handleAddToCartButton = (produto) => {
         setCurrentCart([...currentCart, produto]);
-        alert("Produto adicionado ao carrinho!");
+        //alert("Produto adicionado ao carrinho!");
+        toast.success('Produto adicionado ao carrinho!');
         handleCloseButtonClick();
     };
 
