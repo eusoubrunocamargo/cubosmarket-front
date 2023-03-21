@@ -7,10 +7,12 @@ function Card({produto}) {
 
     const { setCurrentModal } = useContext(SuperModalContext);
 
+    console.log(produto);
+
     return (
         <div onClick={() => setCurrentModal(<ProductDetail produto={produto}/>)} className="container-geral-card">
             <div className="container-foto-produto">
-                <img className="image-sizing" src={produto.imagem_url} alt="produto" />
+                <img className="image-sizing" src={produto.urls[0]} alt="produto" />
             </div>
 
             <div className="container-nome-preco">

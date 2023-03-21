@@ -5,6 +5,9 @@ import "./styles.css";
 import { useState } from "react";
 import api from "../../services/api";
 import { toast } from "react-toastify";
+import { DndProvider , useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
@@ -17,13 +20,23 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
     const [produto, setProduto] = useState({
         nome: '',
         descricao: '',
-        preco: 0,
+        preco: '',
         estoque: 0,
         imagem_url: '',
         categoria_id: '',
     });
 
+    const [charsRemaining, setCharsRemaining] = useState(300);
+
     const handleForm = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        if(name === 'descricao'){
+            const maxLength = 300;
+            const remainingChars = maxLength - value.length;
+            setCharsRemaining(remainingChars);
+
+        }
         setProduto({
             ...produto,
             [e.target.name] : e.target.value,
@@ -38,26 +51,34 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
     ];
 
     //manipulação de imagem
-    const[selectedFile, setSelectedFile] = useState(null);
+    const[selectedFiles, setSelectedFiles] = useState([]);
 
     const selectFile = (e) => {
-        //console.log(e.target.files.length);
-        // console.log(e.target.files);
         if(e.target.files.length > 0){
-            setSelectedFile(e.target.files[0]);
+            const files = Array.from(e.target.files).slice(0, 4);
+            files.forEach((file) => {
+                renderPreviews(file);
+            });
+            setSelectedFiles((prev) => {
+                const slots = 4 - prev.length;
+                const filesToAdd = files.slice(0, slots);
+                return [...prev, ...filesToAdd];
+            });
         }
     };
 
     const uploadingImage = async () => {
+       
         try {
-            const response = await uploadImage(selectedFile);
-            setSelectedFile(null);
-            console.log(response.data);
-            return response.data.url;
+            const imageURLS = await Promise.all(
+                selectedFiles.map((file) => uploadImage(file))
+            );
+            const onlyURLS = imageURLS.map((response) => response.data.url );
+            setSelectedFiles([]);
+            return onlyURLS;
         } catch (error) {
-            //console.log("entrou no erro");
-            toast.error(error);
-            return "";
+            toast.error("Erro ao carregar imagens!");
+            return [];
         }
     };
 
@@ -68,12 +89,13 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
             return toast.warning("Preencha os campos obrigatórios");
         }
     
-        const imageUrl = await uploadingImage();
+        const imageUrls = await uploadingImage();
 
-        //console.log(imageUrl);
+        //console.log(JSON.stringify(imageUrls));
+        console.log(imageUrls);
 
-        if (imageUrl === "") {
-            toast.error("Erro ao carregar imagem!");
+        if (imageUrls.length === 0) {
+            toast.error("Erro ao carregar imagens!");
             return;
         }
     
@@ -92,7 +114,7 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                 estoque: Number(produto.estoque),
                 categoria_id: categoriaIds[produto.categoria_id],
                 user_id: Number(localStorage.getItem("id")),
-                imagem_url: imageUrl,
+                imagem_url: imageUrls,
             });
     
             setMeusProdutos(prevState => [...prevState, response.data.produto[0]]);
@@ -105,7 +127,63 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
         }
     };
 
+    const [previews, setPreviews] = useState([]);
 
+    const renderPreviews = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviews((prev) => [...prev, reader.result]);
+        };
+    };
+
+    function DraggableImage({ preview , index , moveImage }){
+
+        const[{ isDragging } , drag] = useDrag(() => ({
+            type: 'image',
+            item: { index },
+            collect: (monitor) => ({
+                isDragging: monitor.isDragging(),
+            }),
+        }));
+
+        const [, drop] = useDrop(() => ({
+            accept: 'image',
+            hover(item, monitor) {
+                if (item.index === index) {
+                    return;
+                }
+                moveImage(item.index, index);
+                item.index = index;
+            },
+        }));
+
+        return (
+            <div    
+                ref={(node) => drag(drop(node))}
+                className={index === 0 ? 'previewprincipal' : 'preview'}
+                style={{opacity: isDragging ? 0.5 : 1}}>
+                    <img src={preview} alt='preview'/>
+                    {index === 0 && <span>principal</span>}
+            </div>
+        );
+    };
+
+    const moveImage = (fromIndex , toIndex) => {
+       
+        const newPreviews = [...previews];
+        const [modedPreviews] = newPreviews.splice(fromIndex, 1);
+        newPreviews.splice(toIndex, 0, modedPreviews);
+
+        const newSelectedFiles = [...selectedFiles];
+        const [movedFile] = newSelectedFiles.splice(fromIndex, 1);
+        newSelectedFiles.splice(toIndex, 0, movedFile);
+
+        setPreviews(newPreviews);
+        setSelectedFiles(newSelectedFiles)
+
+    };
+    
 
     return (
         <>
@@ -119,14 +197,22 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
                     <div className="container-descricao-produto">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea id="descricao" name="descricao" value={produto.descricao} onChange={handleForm} required />
+                        <textarea id="descricao" name="descricao" value={produto.descricao} onChange={handleForm} required maxLength={300} />
+                        <span className={charsRemaining >= 50 ? "counter-descricao" : "counter-descricao red"}>{charsRemaining}/300</span>
                     </div>
 
                     <div className="container-preco-estoque-categoria-produto">
                         <div className="container-form-preco-produto">
                             <label htmlFor="preco">Preço</label>
-                            <input type="number" id="preco" name="preco" value={produto.preco} onChange={handleForm} min="0" required />
-                        </div>
+                            {/* <input type="number" id="preco" name="preco" value={produto.preco} onChange={handleForm} min="0" required /> */}
+                             <input type='text' id='preco' name="preco" value={produto.preco} onChange={(e) => {
+                                const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                                setProduto({
+                                    ...produto,
+                                    preco: onlyNums,
+                                });
+                             }} placeholder="R$" required/>
+                            </div>
 
                         <div className="container-form-estoque-produto">
                             <label htmlFor="estoque">Estoque</label>
@@ -146,15 +232,26 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
                     <div className="container-upload-imagem">
                         <label className="btn btn-default">
-                            Escolha até 4 imagens
-                            <input className="btn-choose-file" type="file" onChange={selectFile} required />
+                            {selectedFiles.length < 4 ? "Escolha até 4 imagens" : "Imagens selecionadas"}
+                            <input className="btn-choose-file" type="file" onChange={selectFile} multiple required disabled={selectedFiles.length >= 4}/>
                         </label>
-                        <div className="preview"></div>
-                        <div className="preview"></div>
-                        <div className="preview"></div>
-                        <div className="preview"></div>
-                    </div>
 
+                        <DndProvider backend={HTML5Backend}>
+
+                        <div className="container-preview">
+                            {previews.map((preview, index) => (      
+                                <DraggableImage
+                                key={index}      
+                                preview={preview}
+                                index={index}
+                                moveImage={moveImage}
+                                />))}
+                        </div>    
+
+                        </DndProvider>
+
+                    </div>
+                    
                     <div className="container-btn-publicar-cancelar">
                         <div className="container-btn">
                             <button type="submit" className="btn-publicar">Publicar</button>

@@ -33,14 +33,3 @@ function StoreFront () {
 export default StoreFront;
 
 
-  // useEffect(() => {
-    //     async function loadProdutos() {
-    //         try {
-    //             const response = await api.get('/');
-    //             setProdutos(response.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         };
-    //     };
-    //     loadProdutos();
-    // },[]);

@@ -111,7 +111,7 @@ function ShowCart() {
                                     <div className="qtd-produto">{produto.quantity}</div>
                                     <div onClick={() => handleSubProduto(produto, index)} className="btn-qtd"><img src={BtnSubtrair} alt='subtrair'/></div>
                                 </div>
-                                <div className="container-foto-pequena"><img src={produto.imagem_url} alt='imagem'/></div>
+                                <div className="container-foto-pequena"><img src={produto.urls[0]} alt='imagem'/></div>
                                 <div className="container-nome">{produto.nome}</div>
                                 </div>
                                 <div className="style-preco">R$ {produto.preco}</div>

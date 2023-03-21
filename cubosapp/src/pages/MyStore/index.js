@@ -91,7 +91,7 @@ function MyStore () {
                         <div className="container-modelo-produto" key={item.id}>
 
                             <div className="container-foto-produto-modelo">
-                                <img src={item.imagem_url} alt="foto" />
+                                <img src={item.urls[0]} alt="foto" />
                             </div>
 
                             <div className="container-nome-produto-modelo">

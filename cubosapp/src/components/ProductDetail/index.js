@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MyCartContext } from "../../utils/cartContext";
 import { SuperModalContext } from "../../utils/modalContext";
 import FastCart from '../../assets/fast_cart.png';
@@ -20,19 +20,26 @@ function ProductDetail({produto}) {
         handleCloseButtonClick();
     };
 
+    const [currentImg, setCurrentImg] = useState(0);
+    const handleImgClick = (index) => {
+        setCurrentImg(index);
+    };
+
     return (
         
         <>
+            <>
             <div className="container-detalhe-produto">
                 <div className="container-fotoprincipal-galeria">
                     <div className="container-fotoprincipal">
-                        <img src={produto.imagem_url} alt='foto'/>
+                        <img src={produto.urls[currentImg]} alt='foto'/>
                     </div>
+                    {produto.urls.length > 1 && 
                     <div className="container-galeria">
-                        <img src={produto.imagem_url} alt='foto'/>
-                        <img src={produto.imagem_url} alt='foto'/>
-                        <img src={produto.imagem_url} alt='foto'/>
-                    </div>
+                        {produto.urls.map((url, index) => {
+                            return <img onClick={() => handleImgClick(index)} src={url} alt="foto" key={url}/>;
+                        })}
+                    </div>}
                 </div>
                 <div className="container-descricao">{produto.descricao}</div>
                 <div className="container-btn-comprar">
@@ -46,6 +53,7 @@ function ProductDetail({produto}) {
                     </div>
                 </div>    
             </div>
+        </>
         </>
     )
 
