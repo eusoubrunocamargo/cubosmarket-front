@@ -116,8 +116,10 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                 user_id: Number(localStorage.getItem("id")),
                 imagem_url: imageUrls,
             });
+
+            //console.log(response.data);
     
-            setMeusProdutos(prevState => [...prevState, response.data.produto[0]]);
+            setMeusProdutos(prevState => [...prevState, response.data.produto]);
             carregarMeusProdutos();
             handleCloseButtonClick();
             toast.success("Produto cadastrado com sucesso!");
