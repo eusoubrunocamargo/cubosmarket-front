@@ -7,8 +7,6 @@ function Card({produto}) {
 
     const { setCurrentModal } = useContext(SuperModalContext);
 
-    console.log(produto);
-
     return (
         <div onClick={() => setCurrentModal(<ProductDetail produto={produto}/>)} className="container-geral-card">
             <div className="container-foto-produto">

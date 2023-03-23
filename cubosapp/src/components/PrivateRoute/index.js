@@ -10,11 +10,11 @@ function PrivateRoute({children}){
 
     const { isAuthenticated }  = useAuth();
 
-    console.log("entrou no private");
+    //console.log("entrou no private");
 
     if (isAuthenticated)
     {
-        console.log(`private is ${isAuthenticated}`);
+        //console.log(`private is ${isAuthenticated}`);
         //return <Routes><Route path={path} element={element}/></Routes>
         return children;    
     };

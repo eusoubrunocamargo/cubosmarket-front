@@ -1,13 +1,12 @@
-import { useContext } from "react";
+import { useContext , useState } from "react";
 import { uploadImage } from '../../services/imageUploadService';
 import { SuperModalContext } from "../../utils/modalContext";
 import "./styles.css";
-import { useState } from "react";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import { DndProvider , useDrag, useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
+import DraggableImage from "../DraggableImage";
 
 function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
 
@@ -82,17 +81,38 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
         }
     };
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [progress, setProgress] = useState(0);
+
+    const setProgressIncrement = () => {
+        let duration = 4000; // duração em milissegundos
+        let progress = 0;
+        const intervalID = setInterval(() => {
+          setProgress(progress);
+          progress += 1.25;
+          duration -= 50;
+          //console.log(progress, duration);
+          if(progress >= 100 || duration <= 0){
+            clearInterval(intervalID);
+            handleCloseButtonClick();
+            toast.success("Produto cadastrado!");
+          };
+        }, 50);
+    };
+
+
     const handleCreateAnuncio = async (e) => {
         e.preventDefault();
+
+        setIsLoading(true);
+        setProgressIncrement();
     
         if (!produto.nome || !produto.descricao || !produto.preco || !produto.estoque || !produto.categoria_id) {
             return toast.warning("Preencha os campos obrigatórios");
         }
     
         const imageUrls = await uploadingImage();
-
-        //console.log(JSON.stringify(imageUrls));
-        console.log(imageUrls);
 
         if (imageUrls.length === 0) {
             toast.error("Erro ao carregar imagens!");
@@ -106,7 +126,7 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                 tecnologia: 3,
                 veiculos: 4,
             };
-    
+
             const response = await api.post('/produtos', {
                 nome: produto.nome,
                 descricao: produto.descricao,
@@ -116,15 +136,12 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                 user_id: Number(localStorage.getItem("id")),
                 imagem_url: imageUrls,
             });
-
-            //console.log(response.data);
     
             setMeusProdutos(prevState => [...prevState, response.data.produto]);
             carregarMeusProdutos();
-            handleCloseButtonClick();
-            toast.success("Produto cadastrado com sucesso!");
     
         } catch (error) {
+            setIsLoading(false);
             toast.error(error);
         }
     };
@@ -138,41 +155,38 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
             setPreviews((prev) => [...prev, reader.result]);
         };
     };
+    //     const[{ isDragging } , drag] = useDrag(() => ({
+    //         type: 'image',
+    //         item: { index },
+    //         collect: (monitor) => ({
+    //             isDragging: monitor.isDragging(),
+    //         }),
+    //     }));
 
-    function DraggableImage({ preview , index , moveImage }){
+    //     const [, drop] = useDrop(() => ({
+    //         accept: 'image',
+    //         hover(item, _monitor) {
+    //             if (item.index === index) {
+    //                 return;
+    //             }
+    //             moveImage(item.index, index);
+    //             item.index = index;
+    //         },
+    //     }));
 
-        const[{ isDragging } , drag] = useDrag(() => ({
-            type: 'image',
-            item: { index },
-            collect: (monitor) => ({
-                isDragging: monitor.isDragging(),
-            }),
-        }));
+    //     return (
+    //         <div    
+    //             ref={(node) => drag(drop(node))}
+    //             className={index === 0 ? 'previewprincipal' : 'preview'}
+    //             style={{opacity: isDragging ? 0.5 : 1}}>
+    //                 <img src={preview} alt='preview'/>
+    //                 {index === 0 && <span>principal</span>}
+    //         </div>
+    //     );
+    // };
 
-        const [, drop] = useDrop(() => ({
-            accept: 'image',
-            hover(item, monitor) {
-                if (item.index === index) {
-                    return;
-                }
-                moveImage(item.index, index);
-                item.index = index;
-            },
-        }));
+    function moveImage(fromIndex, toIndex) {
 
-        return (
-            <div    
-                ref={(node) => drag(drop(node))}
-                className={index === 0 ? 'previewprincipal' : 'preview'}
-                style={{opacity: isDragging ? 0.5 : 1}}>
-                    <img src={preview} alt='preview'/>
-                    {index === 0 && <span>principal</span>}
-            </div>
-        );
-    };
-
-    const moveImage = (fromIndex , toIndex) => {
-       
         const newPreviews = [...previews];
         const [modedPreviews] = newPreviews.splice(fromIndex, 1);
         newPreviews.splice(toIndex, 0, modedPreviews);
@@ -182,13 +196,20 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
         newSelectedFiles.splice(toIndex, 0, movedFile);
 
         setPreviews(newPreviews);
-        setSelectedFiles(newSelectedFiles)
+        setSelectedFiles(newSelectedFiles);
 
     };
-    
 
     return (
         <>
+                {isLoading ? (
+                        <div className="container-progress-bar">
+                            <div className="progress-status">
+                                <span>Cadastrando produto ...</span>
+                            </div>
+                            <div style={{width: `${progress}%`}} className="progress-bar"></div>
+                        </div>
+                    ) : (
                 <form className="container-form-cadastro-produto" onSubmit={handleCreateAnuncio} encType="multipart/form-data">
                     <h1 className="titulo-form">Cadastrar novo produto</h1>
 
@@ -208,7 +229,7 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                             <label htmlFor="preco">Preço</label>
                             {/* <input type="number" id="preco" name="preco" value={produto.preco} onChange={handleForm} min="0" required /> */}
                              <input type='text' id='preco' name="preco" value={produto.preco} onChange={(e) => {
-                                const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+                                const onlyNums = e.target.value.replace(/\D/, '');
                                 setProduto({
                                     ...produto,
                                     preco: onlyNums,
@@ -243,7 +264,7 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                         <div className="container-preview">
                             {previews.map((preview, index) => (      
                                 <DraggableImage
-                                key={index}      
+                                key={preview}      
                                 preview={preview}
                                 index={index}
                                 moveImage={moveImage}
@@ -261,8 +282,9 @@ function CreateProduct({carregarMeusProdutos, setMeusProdutos}) {
                         <div className="container-btn">
                             <button onClick={handleCloseButtonClick} className="btn-cancelar">Cancelar</button>
                         </div>
-                    </div>
+                    </div> 
                 </form>
+            )}
         </>
     )
 

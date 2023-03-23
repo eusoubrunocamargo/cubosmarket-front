@@ -13,7 +13,7 @@ function StoreFront () {
                 const response = await api.get('/');
                 setProdutos(response.data);
             } catch (error) {
-                console.log(error);
+                alert(error);
             };
         };
         loadProdutos();

@@ -24,7 +24,7 @@ import SetUser from '../User';
 function Menu () {
 
     const { isAuthenticated } = useAuth();
-    console.log(`passou pelo menu e isauth? ${isAuthenticated}`);
+    //console.log(`passou pelo menu e isauth? ${isAuthenticated}`);
     const {setCurrentModal} = useContext(SuperModalContext);
     const {currentCart} = useContext(MyCartContext);
 

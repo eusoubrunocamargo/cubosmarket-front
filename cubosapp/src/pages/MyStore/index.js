@@ -30,11 +30,11 @@ function MyStore () {
     async function carregarMeusProdutos() {
         try {
             const response = await api.get("/produtos");
-            console.log(response);
+            //console.log(response);
             setMeusProdutos(response.data);
             setHasProduct(response.data.length > 0);
         } catch (error) {
-            console.log(error);
+            alert(error);
         };
     };
 

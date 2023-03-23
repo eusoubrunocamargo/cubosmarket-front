@@ -13,7 +13,7 @@ export function AuthProvider({children}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(()=> {
-        console.log('entrou no useeffect');
+        //console.log('entrou no useeffect');
         const authToken = localStorage.getItem('token');
         if(authToken){
             setIsAuthenticated(true);

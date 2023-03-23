@@ -15,7 +15,7 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         try {
-            console.log('entrou no interceptor');
+            //console.log('entrou no interceptor');
             const token = localStorage.getItem('token');
             if(token){
                 try {
