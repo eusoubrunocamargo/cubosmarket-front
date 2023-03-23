@@ -108,3 +108,125 @@
 .btn-toCheckout img {
     width: 2rem;
 }
+
+@media screen and (max-width: 600px) {
+
+    .container-detalhe-produto {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* gap: 2rem; */
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        /* padding: 2rem; */
+    }
+    
+    .container-fotoprincipal-galeria {
+        width: 100%;
+        /* height: 60%; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0rem;
+        justify-content: center;
+        padding: 1rem;
+        /* gap: 1rem; */
+    }
+    
+    .container-fotoprincipal {
+        width: 100%;
+        height: 80%;
+    }
+    
+    .container-fotoprincipal img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .container-galeria {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 1rem;
+        padding: 1rem;
+        height: 20%;
+    }
+    
+    .container-galeria img {
+        width: 5rem;
+        height: 5rem;
+        object-fit: cover;
+        border-radius: 1rem;
+        border: solid 0.1rem lightgray;
+    }
+    
+    .container-descricao {
+        height: 20%;
+        width: 100%;
+        padding: 1rem 1rem 1rem 2rem;
+        font-size: small;
+    }
+    
+    .container-btn-comprar {
+        height: 20%;
+        width: 100%;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0rem;
+        align-items: flex-start;
+        justify-content: space-between;
+        background-color: #B7005C;
+        border-radius: 0rem 0rem 1rem 1rem;
+    }
+    
+    .container-preco-style {
+        display: flex;
+        height: 4rem;
+    }
+    
+    .container-preco-style div:first-child {
+        color: lightgray;
+        font-size: small;
+        opacity: 0.8;
+    }
+    
+    .container-preco-style div:last-child {
+        color: white;
+        font-size: 2rem;
+        padding: 1rem;
+    }
+    
+    .container-btn-toCart-toCheckout {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+    }
+    
+    .btn-add-to-cart {
+        background-color: white;
+        width: 18rem;
+        height: 6rem;
+        color: #B7005C;
+        display: flex;
+        font-size: small;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-toCheckout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: white;
+        font-size: small;
+        font-style: italic;
+    }
+    
+    .btn-toCheckout img {
+        width: 2rem;
+    }
+}

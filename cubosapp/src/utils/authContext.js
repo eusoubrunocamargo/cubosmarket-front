@@ -4,6 +4,7 @@ import api from "../services/api";
 
 const AuthContext = createContext();
 
+
 export function useAuth() {
     return useContext(AuthContext);
 };
@@ -54,6 +55,7 @@ export function AuthProvider({children}) {
     };
 
     function logout(){
+        
         setIsAuthenticated(false);
         localStorage.clear();
     };

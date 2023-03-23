@@ -8,3 +8,20 @@
     gap: 2rem;
     justify-content: center;
 }
+
+@media screen and (max-width: 600px) {
+    .container-geral-storefront {
+        height: auto;
+        width: 100%;
+        background-color: lightgrey;
+        display: flex;
+        flex-direction: column;
+        /* flex-wrap: wrap; */
+        padding: 2rem;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        min-width: 30rem;
+        max-width: 60rem;
+    }
+}

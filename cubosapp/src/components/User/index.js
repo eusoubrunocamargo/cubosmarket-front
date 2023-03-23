@@ -3,12 +3,15 @@ import User from "../../assets/user.svg";
 import { SuperModalContext } from "../../utils/modalContext";
 import "./styles.css";
 import { useAuth } from "../../utils/authContext";
+import { MyCartContext } from '../../utils/cartContext';
 
 function SetUser() {
 
     const { logout } = useAuth();
     const { setCurrentModal } = useContext(SuperModalContext);
+    const {setCurrentCart} = useContext(MyCartContext);
     const handleCloseButtonClick = () => {
+        setCurrentCart([]);
         logout();
         setCurrentModal(null);
     };

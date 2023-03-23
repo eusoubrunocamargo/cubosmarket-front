@@ -13,6 +13,7 @@ import Carrinho from '../../assets/carrinho.svg';
 import User from '../../assets/user.svg';
 import Vender from '../../assets/vender.svg';
 import Mercado from '../../assets/mercado.svg';
+import VenderDark from '../../assets/vender_dark.svg';
 
 //components
 import SuperModal from '../SuperModal';
@@ -22,6 +23,8 @@ import CreateStore from '../CreateStore';
 import SetUser from '../User';
 
 function Menu () {
+
+    const myWidth = window.innerWidth;
 
     const { isAuthenticated } = useAuth();
     //console.log(`passou pelo menu e isauth? ${isAuthenticated}`);
@@ -60,16 +63,18 @@ function Menu () {
     };
 
     return (
+        
 
         <header className='container-geral-menu'>
             <div onClick={() => navigate('/')} className='container-logomarca'>
-                <img src={Logomarca} alt='logomarca' className='menu-logomarca'/>
+                <img src={Logomarca} alt='logomarca'/>
             </div>
             <nav className='container-menu-nav'>
                 <div>
                     <button onClick={handleCartModal}>
                         <img src={Carrinho} alt='carrinho'/>
                         <span>{currentCart.length === 0? "Meu Carrinho" : currentCart.length}</span>
+                        <span className='current-cart-mobile'>{currentCart.length > 0 && currentCart.length}</span>
                     </button>
                 </div>
                 <div>
@@ -86,13 +91,14 @@ function Menu () {
                 </div>
                 <div>
                     <button onClick={handleSellModal}>
-                        <img src={Vender} alt='vender'/>
+                        {myWidth > 600 ? <img src={Vender} alt='vender'/> : <img src={VenderDark} alt='vender'/>}
                         <span>Vender</span>
                     </button>
                 </div>
             </nav>
             <SuperModal/>
         </header>
+
     );
 };
 

@@ -14,12 +14,6 @@
     display: flex;
 }
 
-.menu-logomarca {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-}
-
 .container-menu-nav {
     display: flex;
     gap: 3rem;
@@ -43,4 +37,66 @@
     color: white;
     justify-content: center;
     width: 12rem;
+}
+
+.current-cart-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .container-geral-menu {
+        height: 16rem;
+        width: 100%;
+        /* background-color: #B7005C; */
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        min-width: 30rem;
+        max-width: 60rem;
+    }
+
+    .container-logomarca {
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+   
+    .container-menu-nav {
+        display: flex;
+        gap: 3rem;
+        align-items: center;
+        width: 100vw;
+        justify-content: center;
+    }
+
+    .container-menu-nav img {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .container-menu-nav span {
+        display: none;
+    }
+
+    .container-menu-nav button {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        width: 5rem;
+        padding: 1rem;
+    }
+
+    .container-menu-nav div:last-child button {
+        background-color: initial;
+        color: lightgray;
+        justify-content: center;
+        width: 5rem;
+    }
+
+    .current-cart-mobile {
+        display: flex !important;
+    }
+
 }
